@@ -46,4 +46,5 @@ pipeline {
                 sh 'docker push $IMAGE'
             }
         }
-
+    }
+}
