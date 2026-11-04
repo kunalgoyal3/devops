@@ -1,18 +1,31 @@
 pipeline {
     agent any
 
+    environments{
+      AWS_REGION = 'ap-south-1'
+      ECR_REPO = 'order-service
+      ACCOUNT_ID = sh(script: 'aws sts get-caller-identity --query Account --output text', returnStdout: true).trim()
+      REGISTRY = "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+      IMAGE = "${REGISTRY}/${ECR_REPO}:${BUILD_NUMBER}"
+
+    }
+
+
     stages {
-        stage('Show Commit') {
+        stage('BUILD IMAGE') {
             steps {
-                sh 'git log -1 --oneline'
-                sh 'ls -la'
+                sh 'docker build -t $IMAGE app/order-service'
             }
         }
 
         stage('Build Image') {
             steps {
-                sh 'docker build -t order-service:${BUILD_NUMBER} app/order-service'
-            }
+              sh 'aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY'
+	    }
         }
+	stage('Push to ECR'){
+          steps{
+	  sh 'docker push $IMAGE'
+	}
     }
 }

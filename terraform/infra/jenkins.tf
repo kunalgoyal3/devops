@@ -108,3 +108,35 @@ output "jenkins_url" {
 output "jenkins_instance_id" {
   value = aws_instance.jenkins.id
 }
+
+
+
+
+resource "aws_iam_role_policy" "jenkins_ecr" {
+  name = "jenkins-ecr-push"
+  role = aws_iam_role.jenkins.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid      = "EcrLogin"
+        Effect   = "Allow"
+        Action   = ["ecr:GetAuthorizationToken"]
+        Resource = "*"
+      },
+      {
+        Sid    = "EcrPushToOrderService"
+        Effect = "Allow"
+        Action = [
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:InitiateLayerUpload",
+          "ecr:UploadLayerPart",
+          "ecr:CompleteLayerUpload",
+          "ecr:PutImage"
+        ]
+        Resource = aws_ecr_repository.order_service.arn
+      }
+    ]
+  })
+}
