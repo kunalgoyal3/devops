@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         AWS_REGION = 'ap-south-1'
-        ECR_REPO = 'order-service'
+        ECR_REPO = 'order_service'
     }
 
     stages {
