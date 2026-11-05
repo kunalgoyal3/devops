@@ -16,6 +16,8 @@ provider "aws" {
 
 resource "aws_s3_bucket" "tfstate" {
   bucket = "devops-project-tfstate-kunal21-4821"
+  force_destroy = true 
+
 }
 
 resource "aws_s3_bucket_versioning" "tfstate" {
