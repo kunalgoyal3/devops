@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: order-service
 spec:
-  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
