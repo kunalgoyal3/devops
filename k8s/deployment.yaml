@@ -29,8 +29,6 @@ spec:
           volumeMounts:
             - name: configmap-volume
               mountPath: /etc/config
-            - name: secret-volume
-              mountPath: /etc/config
           resources:
             requests:
               cpu: 50m
@@ -54,8 +52,5 @@ spec:
         - name: configmap-volume
           configMap: 
             name: demo-config
-        - name: secret-volume
-          secret:
-            name: demo_secret 
 
 
