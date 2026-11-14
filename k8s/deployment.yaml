@@ -24,8 +24,12 @@ spec:
           envFrom:
             - configMapRef:
                 name: demo-config
+            - secretRef:
+                name: demo-secret
           volumeMounts:
             - name: configmap-volume
+              mountPath: /etc/config
+            - name: secret-volume
               mountPath: /etc/config
           resources:
             requests:
@@ -50,5 +54,8 @@ spec:
         - name: configmap-volume
           configMap: 
             name: demo-config
+        - name: secret-volume
+          secret:
+            name: demo_secret 
 
 
