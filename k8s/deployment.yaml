@@ -21,6 +21,9 @@ spec:
           image: IMAGE_PLACEHOLDER
           ports:
             - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: demo-config
           resources:
             requests:
               cpu: 50m
