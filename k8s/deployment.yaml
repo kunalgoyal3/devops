@@ -24,6 +24,9 @@ spec:
           envFrom:
             - configMapRef:
                 name: demo-config
+          volumeMounts:
+            - name: configmap-volume
+              mountPath: /etc/config
           resources:
             requests:
               cpu: 50m
@@ -43,3 +46,9 @@ spec:
               port: 3000
             initialDelaySeconds: 10
             periodSeconds: 15
+      volumes:
+        - name: configmap-volume
+          configMap: 
+            name: demo-config
+
+
